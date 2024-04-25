@@ -132,7 +132,7 @@ def load_gs_cameras(source_path, gs_output_path, image_resolution=1,
             colmap_id=id, image=gt_image, gt_alpha_mask=None,
             R=R, T=T, FoVx=fov_x, FoVy=fov_y,
             image_name=name, uid=id,
-            image_height=image_height, image_width=image_width,)
+            image_height=image_height, image_width=image_width, data_device='cpu')
         
         cam_list.append(gs_camera)
 
@@ -409,6 +409,7 @@ def convert_camera_from_pytorch3d_to_gs(
             image_name=name, uid=cam_idx,
             image_height=image_height, 
             image_width=image_width,
+            data_device='cpu'
             )
         gs_cameras.append(camera)
 
