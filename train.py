@@ -111,75 +111,78 @@ if __name__ == "__main__":
     if args.export_ply:
         print('Will export a ply file with the refined 3D Gaussians at the end of the training.')
     
-    # ----- Optimize coarse SuGaR -----
-    coarse_args = AttrDict({
-        'checkpoint_path': args.checkpoint_path,
-        'scene_path': args.scene_path,
-        'iteration_to_load': args.iteration_to_load,
-        'output_dir': None,
-        'eval': args.eval,
-        'estimation_factor': 0.2,
-        'normal_factor': 0.2,
-        'gpu': args.gpu,
-        'white_background': args.white_background,
-    })
-    if args.regularization_type == 'sdf':
-        coarse_sugar_path = coarse_training_with_sdf_regularization(coarse_args)
-    elif args.regularization_type == 'density':
-        coarse_sugar_path = coarse_training_with_density_regularization(coarse_args)
-    else:
-        raise ValueError(f'Unknown regularization type: {args.regularization_type}')
+    # # ----- Optimize coarse SuGaR -----
+    # coarse_args = AttrDict({
+    #     'checkpoint_path': args.checkpoint_path,
+    #     'scene_path': args.scene_path,
+    #     'iteration_to_load': args.iteration_to_load,
+    #     'output_dir': None,
+    #     'eval': args.eval,
+    #     'estimation_factor': 0.2,
+    #     'normal_factor': 0.2,
+    #     'gpu': args.gpu,
+    #     'white_background': args.white_background,
+    # })
+    # if args.regularization_type == 'sdf':
+    #     coarse_sugar_path = coarse_training_with_sdf_regularization(coarse_args)
+    # elif args.regularization_type == 'density':
+    #     coarse_sugar_path = coarse_training_with_density_regularization(coarse_args)
+    # else:
+    #     raise ValueError(f'Unknown regularization type: {args.regularization_type}')
     
     
-    # ----- Extract mesh from coarse SuGaR -----
-    coarse_mesh_args = AttrDict({
-        'scene_path': args.scene_path,
-        'checkpoint_path': args.checkpoint_path,
-        'iteration_to_load': args.iteration_to_load,
-        'coarse_model_path': coarse_sugar_path,
-        'surface_level': args.surface_level,
-        'decimation_target': args.n_vertices_in_mesh,
-        'mesh_output_dir': None,
-        'bboxmin': args.bboxmin,
-        'bboxmax': args.bboxmax,
-        'center_bbox': args.center_bbox,
-        'gpu': args.gpu,
-        'eval': args.eval,
-        'use_centers_to_extract_mesh': False,
-        'use_marching_cubes': False,
-        'use_vanilla_3dgs': False,
-    })
-    coarse_mesh_path = extract_mesh_from_coarse_sugar(coarse_mesh_args)[0]
+    # # ----- Extract mesh from coarse SuGaR -----
+    # coarse_mesh_args = AttrDict({
+    #     'scene_path': args.scene_path,
+    #     'checkpoint_path': args.checkpoint_path,
+    #     'iteration_to_load': args.iteration_to_load,
+    #     'coarse_model_path': coarse_sugar_path,
+    #     'surface_level': args.surface_level,
+    #     'decimation_target': args.n_vertices_in_mesh,
+    #     'mesh_output_dir': None,
+    #     'bboxmin': args.bboxmin,
+    #     'bboxmax': args.bboxmax,
+    #     'center_bbox': args.center_bbox,
+    #     'gpu': args.gpu,
+    #     'eval': args.eval,
+    #     'use_centers_to_extract_mesh': False,
+    #     'use_marching_cubes': False,
+    #     'use_vanilla_3dgs': False,
+    # })
+    # coarse_mesh_path = extract_mesh_from_coarse_sugar(coarse_mesh_args)[0]
     
     
-    # ----- Refine SuGaR -----
-    refined_args = AttrDict({
-        'scene_path': args.scene_path,
-        'checkpoint_path': args.checkpoint_path,
-        'mesh_path': coarse_mesh_path,      
-        'output_dir': None,
-        'iteration_to_load': args.iteration_to_load,
-        'normal_consistency_factor': 0.1,    
-        'gaussians_per_triangle': args.gaussians_per_triangle,        
-        'n_vertices_in_fg': args.n_vertices_in_mesh,
-        'refinement_iterations': args.refinement_iterations,
-        'bboxmin': args.bboxmin,
-        'bboxmax': args.bboxmax,
-        'export_ply': args.export_ply,
-        'eval': args.eval,
-        'gpu': args.gpu,
-        'white_background': args.white_background,
-    })
-    refined_sugar_path = refined_training(refined_args)
+    # # ----- Refine SuGaR -----
+    # refined_args = AttrDict({
+    #     # 'scene_path': args.scene_path,
+    #     'scene_path': "cup/",
+    #     # 'checkpoint_path': "args.checkpoint_path",
+    #     'checkpoint_path': "cup/cup_output2/",
+    #     'mesh_path': coarse_mesh_path,      
+    #     'output_dir': None,
+    #     'iteration_to_load': args.iteration_to_load,
+    #     'normal_consistency_factor': 0.1,    
+    #     'gaussians_per_triangle': args.gaussians_per_triangle,        
+    #     'n_vertices_in_fg': args.n_vertices_in_mesh,
+    #     'refinement_iterations': args.refinement_iterations,
+    #     'bboxmin': args.bboxmin,
+    #     'bboxmax': args.bboxmax,
+    #     'export_ply': args.export_ply,
+    #     'eval': args.eval,
+    #     'gpu': args.gpu,
+    #     'white_background': args.white_background,
+    # })
+
+    # refined_sugar_path = "./output/refined/cup/sugarfine_3Dgs7000_sdfestim02_sdfnorm02_level03_decim200000_normalconsistency01_gaussperface6/2000.pt"
     
     
     # ----- Extract mesh and texture from refined SuGaR -----
     if args.export_uv_textured_mesh:
         refined_mesh_args = AttrDict({
-            'scene_path': args.scene_path,
+            'scene_path': "cup/",
             'iteration_to_load': args.iteration_to_load,
-            'checkpoint_path': args.checkpoint_path,
-            'refined_model_path': refined_sugar_path,
+            'checkpoint_path': "cup/cup_output2/",
+            'refined_model_path': "./output/refined/cup/sugarfine_3Dgs7000_sdfestim02_sdfnorm02_level03_decim200000_normalconsistency01_gaussperface6/2000.pt",
             'mesh_output_dir': None,
             'n_gaussians_per_surface_triangle': args.gaussians_per_triangle,
             'square_size': args.square_size,
