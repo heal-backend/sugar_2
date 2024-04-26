@@ -13,6 +13,7 @@ from rich.console import Console
 
 def extract_mesh_and_texture_from_refined_sugar(args):
     CONSOLE = Console(width=120)
+    torch.cuda.empty_cache()
 
     n_skip_images_for_eval_split = 8
             
