@@ -5,7 +5,7 @@ from sugar_trainers.coarse_sdf import coarse_training_with_sdf_regularization
 from sugar_extractors.coarse_mesh import extract_mesh_from_coarse_sugar
 from sugar_trainers.refine import refined_training
 from sugar_extractors.refined_mesh import extract_mesh_and_texture_from_refined_sugar
-
+import torch
 
 class AttrDict(dict):
         def __init__(self, *args, **kwargs):
@@ -175,6 +175,8 @@ if __name__ == "__main__":
 
     # refined_sugar_path = "./output/refined/cup/sugarfine_3Dgs7000_sdfestim02_sdfnorm02_level03_decim200000_normalconsistency01_gaussperface6/2000.pt"
     
+    
+    torch.cuda.empty_cache()
     
     # ----- Extract mesh and texture from refined SuGaR -----
     if args.export_uv_textured_mesh:
