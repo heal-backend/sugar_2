@@ -181,10 +181,12 @@ if __name__ == "__main__":
     # ----- Extract mesh and texture from refined SuGaR -----
     if args.export_uv_textured_mesh:
         refined_mesh_args = AttrDict({
-            'scene_path': "cup/",
+            'scene_path': "healimage1/",
             'iteration_to_load': args.iteration_to_load,
-            'checkpoint_path': "cup/cup_output2/",
-            'refined_model_path': "./output/refined/cup/sugarfine_3Dgs7000_sdfestim02_sdfnorm02_level03_decim200000_normalconsistency01_gaussperface6/2000.pt",
+            # 'checkpoint_path': "cup/cup_output2/",
+            'checkpoint_path': "healimage1/output_0429/",
+            # 'refined_model_path': "./output/refined/cup/sugarfine_3Dgs7000_sdfestim02_sdfnorm02_level03_decim200000_normalconsistency01_gaussperface6/2000.pt",
+            'refined_model_path': "./output/refined/healimage1/sugarfine_3Dgs7000_densityestim02_sdfnorm02_level03_decim1000000_normalconsistency01_gaussperface1/2000.pt",
             'mesh_output_dir': None,
             'n_gaussians_per_surface_triangle': args.gaussians_per_triangle,
             'square_size': args.square_size,
